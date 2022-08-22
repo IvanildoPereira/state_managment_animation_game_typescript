@@ -17,6 +17,9 @@ export default class Player{
     vy: number;
     weight: number;
     maxFrame: number;
+    fps: number;
+    frameTimer: number;
+    frameInterval: number;
 
     constructor(gameWidth: number, gameHeight: number){
         this.gameWidth = gameWidth;
@@ -42,15 +45,24 @@ export default class Player{
         this.frameX = 0;
         this.frameY = 0;
         this.speed = 0;
-        this.maxSpeed = 25;
+        this.maxSpeed = 10;
         this.vy = 0;
         this.weight = 1.5;
         this.maxFrame = 6;
+        this.fps = 30;
+        this.frameTimer = 0;
+        this.frameInterval = 1000/this.fps;
     }
 
-    draw(context: CanvasRenderingContext2D){
-        if(this.frameX < this.maxFrame) this.frameX++
-        else this.frameX = 0;
+    draw(context: CanvasRenderingContext2D, deltaTime: number){
+        if(this.frameTimer > this.frameInterval){
+            if(this.frameX < this.maxFrame) this.frameX++
+            else this.frameX = 0;
+            this.frameTimer = 0;
+        } else{
+            this.frameTimer += deltaTime;
+        }
+        
         context.drawImage(this.image, this.width * this.frameX, this.height * this.frameY, this.width, this.height, this.x, this.y, this.width, this.height);
     }
 
