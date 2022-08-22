@@ -17,7 +17,7 @@ export default class Player{
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
         this.states = [new StandingLeft(this), new StandingRight(this)];
-        this.currentState = this.states[0];
+        this.currentState = this.states[1];
         this.image = document.getElementById("dogImage")! as HTMLImageElement;
         this.width = 200; // Width of each tile
         this.height = 181.83; // Height of each tile
