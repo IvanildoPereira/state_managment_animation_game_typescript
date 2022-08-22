@@ -14,6 +14,7 @@ class State{
 }
 
 export interface IAnimate{
+    state: string;
     player: Player;
     enter(): void;
     handleInput(input: string): void
