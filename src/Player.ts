@@ -1,4 +1,4 @@
-import { IAnimate, RunningLeft, RunningRight, SittingLeft, SittingRight, StandingLeft, StandingRight } from "./state";
+import { IAnimate, JumpingLeft, JumpingRight, RunningLeft, RunningRight, SittingLeft, SittingRight, StandingLeft, StandingRight } from "./state";
 
 export default class Player{
     gameWidth: number;
@@ -13,7 +13,9 @@ export default class Player{
     frameX: number;
     frameY: number;
     speed: number;
-    maxSpeed: number
+    maxSpeed: number;
+    vy: number;
+    weight: number;
 
     constructor(gameWidth: number, gameHeight: number){
         this.gameWidth = gameWidth;
@@ -24,7 +26,9 @@ export default class Player{
             new SittingLeft(this), 
             new SittingRight(this),
             new RunningLeft(this),
-            new RunningRight(this)
+            new RunningRight(this),
+            new JumpingLeft(this),
+            new JumpingRight(this)
         ];
         this.currentState = this.states[1];
         this.image = document.getElementById("dogImage")! as HTMLImageElement;
@@ -36,6 +40,8 @@ export default class Player{
         this.frameY = 0;
         this.speed = 0;
         this.maxSpeed = 10;
+        this.vy = 0;
+        this.weight = 1;
     }
 
     draw(context: CanvasRenderingContext2D){
@@ -48,10 +54,25 @@ export default class Player{
         this.x += this.speed;
         if(this.x <=0) this.x = 0;
         else if(this.x >= this.gameWidth - this.width) this.x = this.gameWidth - this.width; 
+
+        // Vertical movement
+        this.y += this.vy;
+        if(!this.onGround()){
+            this.vy += this.weight;
+        } else{
+            this.vy = 0;
+        }
+
+        if(this.y > this.gameHeight - this.height) this.y = this.gameHeight - this.height // prevent to player moving below ground level
+
     }
 
     setState(state: number){
         this.currentState = this.states[state];
         this.currentState.enter();
+    }
+
+    onGround(): boolean{
+        return this.y >= this.gameHeight -this.height;
     }
 }

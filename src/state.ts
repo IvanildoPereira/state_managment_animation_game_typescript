@@ -6,7 +6,9 @@ export enum states{
     SITTING_LEFT = 2,
     SITTING_RIGHT = 3,
     RUNNING_LEFT = 4,
-    RUNNING_RIGHT = 5
+    RUNNING_RIGHT = 5,
+    JUMPING_LEFT = 6,
+    JUMPING_RIGHT = 7
 }
 
 class State{
@@ -41,6 +43,7 @@ export class StandingLeft extends State implements IAnimate{
         if(input === "PRESS right") this.player.setState(states.RUNNING_RIGHT);
         else if(input === "PRESS left") this.player.setState(states.RUNNING_LEFT);
         else if(input === "PRESS down") this.player.setState(states.SITTING_LEFT);
+        else if(input === "PRESS up") this.player.setState(states.JUMPING_LEFT);
     }
 }
 
@@ -61,6 +64,7 @@ export class StandingRight extends State implements IAnimate{
         if(input === "PRESS left") this.player.setState(states.RUNNING_LEFT);
         else if(input === "PRESS right") this.player.setState(states.RUNNING_RIGHT);
         else if(input === "PRESS down") this.player.setState(states.SITTING_RIGHT);
+        else if(input === "PRESS up") this.player.setState(states.JUMPING_RIGHT);
     }
 }
 
@@ -139,5 +143,45 @@ export class RunningRight extends State implements IAnimate{
         if(input === "PRESS left") this.player.setState(states.RUNNING_LEFT);
         else if(input === "RELEASE right") this.player.setState(states.STADING_RIGHT);
         else if(input === "PRESS down") this.player.setState(states.SITTING_RIGHT);
+    }
+}
+
+export class JumpingLeft extends State implements IAnimate{
+    player: Player;
+
+    constructor(player: Player){
+        super("JUMPING LEFT");
+        this.player = player;
+    }
+
+    enter(): void {
+        this.player.frameY = 3;
+        if(this.player.onGround()) this.player.vy -= 40;
+        this.player.speed = -this.player.maxSpeed * 0.5;  
+    }
+
+    handleInput(input: string): void {
+       if(input === "Press right") this.player.setState(states.JUMPING_RIGHT);
+       else if(this.player.onGround()) this.player.setState(states.STADING_LEFT);
+    }
+}
+
+export class JumpingRight extends State implements IAnimate{
+    player: Player;
+
+    constructor(player: Player){
+        super("JUMPING RIGHT");
+        this.player = player;
+    }
+
+    enter(): void {
+        this.player.frameY = 2;
+        if(this.player.onGround()) this.player.vy -= 40;
+        this.player.speed = this.player.maxSpeed * 0.5;  
+    }
+
+    handleInput(input: string): void {
+        if(input === "Press left") this.player.setState(states.JUMPING_LEFT);
+        else if(this.player.onGround()) this.player.setState(states.STADING_RIGHT);
     }
 }
