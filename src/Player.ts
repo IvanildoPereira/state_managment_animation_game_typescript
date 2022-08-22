@@ -1,4 +1,4 @@
-import { IAnimate, StandingLeft, StandingRight } from "./state";
+import { IAnimate, SittingLeft, SittingRight, StandingLeft, StandingRight } from "./state";
 
 export default class Player{
     gameWidth: number;
@@ -16,7 +16,7 @@ export default class Player{
     constructor(gameWidth: number, gameHeight: number){
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
-        this.states = [new StandingLeft(this), new StandingRight(this)];
+        this.states = [new StandingLeft(this), new StandingRight(this), new SittingLeft(this), new SittingRight(this)];
         this.currentState = this.states[1];
         this.image = document.getElementById("dogImage")! as HTMLImageElement;
         this.width = 200; // Width of each tile
