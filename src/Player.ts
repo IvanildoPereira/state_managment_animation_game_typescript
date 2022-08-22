@@ -16,6 +16,7 @@ export default class Player{
     maxSpeed: number;
     vy: number;
     weight: number;
+    maxFrame: number;
 
     constructor(gameWidth: number, gameHeight: number){
         this.gameWidth = gameWidth;
@@ -41,12 +42,15 @@ export default class Player{
         this.frameX = 0;
         this.frameY = 0;
         this.speed = 0;
-        this.maxSpeed = 10;
+        this.maxSpeed = 25;
         this.vy = 0;
-        this.weight = 1;
+        this.weight = 1.5;
+        this.maxFrame = 6;
     }
 
     draw(context: CanvasRenderingContext2D){
+        if(this.frameX < this.maxFrame) this.frameX++
+        else this.frameX = 0;
         context.drawImage(this.image, this.width * this.frameX, this.height * this.frameY, this.width, this.height, this.x, this.y, this.width, this.height);
     }
 
