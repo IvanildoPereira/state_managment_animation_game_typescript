@@ -1,4 +1,4 @@
-import { IAnimate, JumpingLeft, JumpingRight, RunningLeft, RunningRight, SittingLeft, SittingRight, StandingLeft, StandingRight } from "./state";
+import { FallingLeft, FallingRight, IAnimate, JumpingLeft, JumpingRight, RunningLeft, RunningRight, SittingLeft, SittingRight, StandingLeft, StandingRight } from "./state";
 
 export default class Player{
     gameWidth: number;
@@ -28,7 +28,9 @@ export default class Player{
             new RunningLeft(this),
             new RunningRight(this),
             new JumpingLeft(this),
-            new JumpingRight(this)
+            new JumpingRight(this),
+            new FallingLeft(this),
+            new FallingRight(this)
         ];
         this.currentState = this.states[1];
         this.image = document.getElementById("dogImage")! as HTMLImageElement;

@@ -8,7 +8,9 @@ export enum states{
     RUNNING_LEFT = 4,
     RUNNING_RIGHT = 5,
     JUMPING_LEFT = 6,
-    JUMPING_RIGHT = 7
+    JUMPING_RIGHT = 7,
+    FALLING_LEFT = 8,
+    FALLING_RIGHT = 9
 }
 
 class State{
@@ -161,8 +163,9 @@ export class JumpingLeft extends State implements IAnimate{
     }
 
     handleInput(input: string): void {
-       if(input === "Press right") this.player.setState(states.JUMPING_RIGHT);
+       if(input === "PRESS right") this.player.setState(states.JUMPING_RIGHT);
        else if(this.player.onGround()) this.player.setState(states.STADING_LEFT);
+       else if(this.player.vy > 0) this.player.setState(states.FALLING_LEFT);
     }
 }
 
@@ -181,7 +184,44 @@ export class JumpingRight extends State implements IAnimate{
     }
 
     handleInput(input: string): void {
-        if(input === "Press left") this.player.setState(states.JUMPING_LEFT);
+        if(input === "PRESS left") this.player.setState(states.JUMPING_LEFT);
+        else if(this.player.onGround()) this.player.setState(states.STADING_RIGHT);
+        else if(this.player.vy > 0) this.player.setState(states.FALLING_RIGHT);
+    }
+}
+
+export class FallingLeft extends State implements IAnimate{
+    player: Player;
+
+    constructor(player: Player){
+        super("FALLING LEFT");
+        this.player = player;
+    }
+
+    enter(): void {
+        this.player.frameY = 5;
+    }
+
+    handleInput(input: string): void {
+       if(input === "PRESS right") this.player.setState(states.FALLING_RIGHT);
+       else if(this.player.onGround()) this.player.setState(states.STADING_LEFT);
+    }
+}
+
+export class FallingRight extends State implements IAnimate{
+    player: Player;
+
+    constructor(player: Player){
+        super("FALLING RIGHT");
+        this.player = player;
+    }
+
+    enter(): void {
+        this.player.frameY = 4;
+    }
+
+    handleInput(input: string): void {
+        if(input === "PRESS left") this.player.setState(states.FALLING_LEFT);
         else if(this.player.onGround()) this.player.setState(states.STADING_RIGHT);
     }
 }
