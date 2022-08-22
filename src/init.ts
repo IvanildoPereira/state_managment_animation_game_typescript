@@ -1,5 +1,6 @@
 import inputHandler from "./input";
 import Player from "./Player";
+import { drawStatusText } from "./utils";
 
 window.addEventListener('load', () =>{
     const loading = document.getElementById('loading')!;
@@ -17,6 +18,7 @@ window.addEventListener('load', () =>{
     const animate = () =>{
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Clean canvas between each frames
         player.draw(ctx);
+        drawStatusText(ctx, input)
         requestAnimationFrame(animate)
     }
 
