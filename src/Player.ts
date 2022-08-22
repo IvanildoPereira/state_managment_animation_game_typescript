@@ -1,8 +1,10 @@
+import { IAnimate, StandingLeft, StandingRight } from "./state";
+
 export default class Player{
     gameWidth: number;
     gameHeight: number;
-    states: any[];
-    currentState: any;
+    states: IAnimate[];
+    currentState: IAnimate;
     image: HTMLImageElement;
     width: number;
     height: number;
@@ -14,7 +16,7 @@ export default class Player{
     constructor(gameWidth: number, gameHeight: number){
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
-        this.states = [];
+        this.states = [new StandingLeft(this), new StandingRight(this)];
         this.currentState = this.states[0];
         this.image = document.getElementById("dogImage")! as HTMLImageElement;
         this.width = 200; // Width of each tile
@@ -27,5 +29,14 @@ export default class Player{
 
     draw(context: CanvasRenderingContext2D){
         context.drawImage(this.image, this.width * this.frameX, this.height * this.frameY, this.width, this.height, this.x, this.y, this.width, this.height);
+    }
+
+    update(input: string){
+        this.currentState.handleInput(input)
+    }
+
+    setState(state: number){
+        this.currentState = this.states[state];
+        this.currentState.enter();
     }
 }
