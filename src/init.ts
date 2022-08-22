@@ -10,11 +10,13 @@ window.addEventListener('load', () =>{
     canvas.height = window.innerHeight;
 
     const player = new Player(canvas.width, canvas.height);
-    player.draw(ctx);
+    
     const input = new inputHandler();
     
 
     const animate = () =>{
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clean canvas between each frames
+        player.draw(ctx);
         requestAnimationFrame(animate)
     }
 
