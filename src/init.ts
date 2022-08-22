@@ -19,7 +19,7 @@ window.addEventListener('load', () =>{
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Clean canvas between each frames
         player.update(input.lastKey)
         player.draw(ctx);
-        drawStatusText(ctx, input)
+        drawStatusText(ctx, input, player)
         requestAnimationFrame(animate)
     }
 
