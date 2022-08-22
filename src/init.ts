@@ -1,3 +1,4 @@
+import inputHandler from "./input";
 import Player from "./Player";
 
 window.addEventListener('load', () =>{
@@ -9,5 +10,13 @@ window.addEventListener('load', () =>{
     canvas.height = window.innerHeight;
 
     const player = new Player(canvas.width, canvas.height);
-    player.draw(ctx)
+    player.draw(ctx);
+    const input = new inputHandler();
+    
+
+    const animate = () =>{
+        requestAnimationFrame(animate)
+    }
+
+    animate();
 })
